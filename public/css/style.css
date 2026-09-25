@@ -1892,7 +1892,7 @@ select:focus { outline: none; border-color: var(--pink); }
   }
 }
 
-/* ---- 2. Real touch targets for icon buttons ---- */
+/* ---- 2. Real touch  targets for icon buttons ---- */
 @media (max-width: 600px) {
   .back-btn-nav, .sos-icon {
     width: 44px;
