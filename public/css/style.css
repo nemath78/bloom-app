@@ -1858,3 +1858,82 @@ select:focus { outline: none; border-color: var(--pink); }
 @media (max-width: 720px) {
   .nav-tabs { overflow-x: auto; }
 }
+
+/* ============================================================
+   v6 MOBILE RESPONSIVENESS PASS
+
+   Audit before writing anything: the viewport meta tag was already
+   correct, and no container in this file used a hardcoded pixel width —
+   cards, the chat window, gallery grid and video already sized fluidly
+   off max-width + 100%. So this pass fixes the three real mobile bugs
+   found, rather than re-doing layout that already worked:
+
+   1. Form inputs/selects were 14px. Below 16px, iOS Safari auto-zooms
+      the whole page on focus — this is almost certainly the "looks
+      squeezed/misaligned on phone" symptom, since it visibly distorts
+      the layout the moment someone taps the due-date or contact forms.
+   2. The back arrow and SOS icon were 34px tap targets — under both
+      Apple's 44px and Android's 48dp minimum, so they're hard to hit
+      accurately with a thumb.
+   3. The gallery photo remove button only appeared on :hover, which
+      does not exist on touch — so on a phone there was no way to
+      delete a gallery photo at all.
+
+   Below that: a light spacing/type pass so edge padding and headline
+   sizes feel calibrated to a phone rather than just shrunk.
+   ============================================================ */
+
+/* ---- 1. Stop iOS auto-zoom on form focus ---- */
+@media (max-width: 600px) {
+  input[type="date"], input[type="number"], input[type="text"],
+  input[type="tel"], input[type="email"], input[type="password"],
+  select {
+    font-size: 16px;
+  }
+}
+
+/* ---- 2. Real touch targets for icon buttons ---- */
+@media (max-width: 600px) {
+  .back-btn-nav, .sos-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 17px;
+  }
+  .nav-tab { padding: 11px 16px; }
+  .logout-btn { padding: 10px 16px; }
+}
+
+/* ---- 3. Gallery remove button reachable on touch ---- */
+@media (hover: none), (pointer: coarse) {
+  .g-remove { opacity: 1; background: rgba(255, 255, 255, 0.85); }
+}
+
+/* ---- Spacing & type calibrated for phone screens ---- */
+@media (max-width: 600px) {
+  .app-header { padding: 12px 16px; gap: 10px; }
+  .app-main { padding: 18px 14px 44px; }
+
+  .card, .auth-card { padding: 20px; }
+
+  .welcome-card { padding: 26px 20px; }
+  .welcome-title, .welcome-credit { font-size: 22px; }
+  .welcome-features { gap: 8px; }
+
+  .card h2 { font-size: 19px; }
+  .cd-num { font-size: 28px; }
+
+  /* Icon-only header controls: text labels are the first thing to drop
+     when space is tight, keep the icon so the control stays usable. */
+  .header-right { gap: 6px; }
+  .user-email { display: none; }
+
+  .g-date, .g-author { font-size: 9px; }
+}
+
+/* ---- Very small phones (iPhone SE / small Android, ~360px and under) ---- */
+@media (max-width: 380px) {
+  .nav-tab { padding: 9px 12px; font-size: 12px; }
+  .welcome-title, .welcome-credit { font-size: 19px; }
+  .result-grid { flex-wrap: wrap; row-gap: 10px; }
+}
+
